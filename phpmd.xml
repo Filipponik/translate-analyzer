@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<ruleset name="PHPMD rule set"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                     https://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+    <description>Laravel rule set that checks code</description>
+
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/cleancode.xml">
+        <exclude name="StaticAccess"/>
+        <exclude name="ElseExpression"/>
+    </rule>
+
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/codesize.xml"/>
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/controversial.xml"/>
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/design.xml">
+        <exclude name="CouplingBetweenObjects"/>
+    </rule>
+
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/design.xml/CouplingBetweenObjects">
+        <properties>
+            <property name="minimum" value="20"/>
+        </properties>
+    </rule>
+
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/naming.xml">
+        <exclude name="ShortMethodName"/>
+        <exclude name="ShortVariable"/>
+        <exclude name="LongVariable"/>
+    </rule>
+
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/naming.xml/ShortMethodName">
+        <properties>
+            <property name="exceptions" value="up"/>
+        </properties>
+    </rule>
+
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="exceptions" value="id,e,ip,to"/>
+        </properties>
+    </rule>
+
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="maximum" value="26"/>
+        </properties>
+    </rule>
+
+    <rule ref="vendor/phpmd/phpmd/src/main/resources/rulesets/unusedcode.xml"/>
+
+</ruleset>
