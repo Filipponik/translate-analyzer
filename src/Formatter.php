@@ -9,7 +9,7 @@ class Formatter
     public static int $spacesPerTabCount = 4;
 
     // TODO Save to Laravel default directory structure
-    public static function createTransactionFiles(string $directoryName, array $keys, array $unsupportedKeys): void
+    public static function createTranslationFiles(string $directoryName, array $keys, array $unsupportedKeys): void
     {
         foreach ($keys as $filename => $key) {
             $customVarExport = self::customVarExport($key);

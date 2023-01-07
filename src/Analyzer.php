@@ -41,7 +41,7 @@ class Analyzer
 
     public function writeResultsToFiles(string $directoryName = 'analyze_results'): void
     {
-        Formatter::createTransactionFiles($directoryName, $this->foundKeys, $this->incorrectKeys);
+        Formatter::createTranslationFiles($directoryName, $this->foundKeys, $this->incorrectKeys);
     }
 
     public function getFoundKeys(): array
