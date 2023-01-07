@@ -34,7 +34,7 @@ class Formatter
 
             foreach ($inputValue as $key => $value) {
                 $exportedVar  = self::customVarExport($value, $innerSpacesCount);
-                $summary .= "$innerSpaces'$key' => $exportedVar\n";
+                $summary .= "$innerSpaces'$key' => $exportedVar,\n";
             }
             $summary .= $spaces . ']';
 
