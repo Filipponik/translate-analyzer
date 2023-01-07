@@ -13,8 +13,8 @@ class Formatter
     {
         foreach ($keys as $filename => $key) {
             $customVarExport = self::customVarExport($key);
+            $info = "<?php\n\nreturn $customVarExport;\n";
 
-            $info = "<?php\n\nreturn " . $customVarExport . ";\n";
             Helper::saveToFile($directoryName, $filename . '.php', $info);
         }
 
