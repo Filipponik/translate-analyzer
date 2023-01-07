@@ -44,6 +44,12 @@ class Analyzer
         Formatter::createTranslationFiles($directoryName, $this->foundKeys, $this->incorrectKeys);
     }
 
+    public function writeResultsToLaravelFiles(array $languages): void
+    {
+        foreach ($languages as $languageName) {
+            Formatter::createTranslationFiles("../lang/$languageName", $this->foundKeys, $this->incorrectKeys);
+        }
+    }
     public function getFoundKeys(): array
     {
         return $this->foundKeys;
