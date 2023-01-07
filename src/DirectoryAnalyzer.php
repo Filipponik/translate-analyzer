@@ -15,9 +15,10 @@ class DirectoryAnalyzer
      *
      * @param string $path
      * @param array $inputArr
+     * @param string $suffix
      * @return array
      */
-    public static function getKeysFromDirectory(string $path, array $inputArr): array
+    public static function getKeysFromDirectory(string $path, array $inputArr, string $suffix): array
     {
         $iterator = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
         do {
@@ -27,12 +28,13 @@ class DirectoryAnalyzer
             }
 
             if ($iterator->isReadable() && $iterator->isFile()) {
+                if (!$suffix || $iterator->getExtension() !== $suffix) {
+                    continue;
+                }
                 $file = $iterator->openFile();
                 $inputArr = array_merge($inputArr, self::getKeysFromFile($file));
-            } else {
-                if ($iterator->isDir()) {
-                    $inputArr = self::getKeysFromDirectory($path . '/' . $iterator->getFilename(), $inputArr);
-                }
+            } elseif ($iterator->isDir()) {
+                $inputArr = self::getKeysFromDirectory($path . '/' . $iterator->getFilename(), $inputArr, $suffix);
             }
             $iterator->next();
         } while (true);

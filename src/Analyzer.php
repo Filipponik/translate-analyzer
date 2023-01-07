@@ -10,17 +10,18 @@ class Analyzer
 
     private array $incorrectKeys = [];
 
-    // TODO Add optional suffix for file extensions
     private string $suffix = '';
 
     /**
      * Analyze some directory
      */
-    public function analyze(string $path): void
+    public function analyze(string $path): self
     {
-        $keys = array_unique(DirectoryAnalyzer::getKeysFromDirectory($path, []));
+        $keys = array_unique(DirectoryAnalyzer::getKeysFromDirectory($path, [], $this->suffix));
         sort($keys);
         $this->createCorrectKeysArray(array_map(fn ($key) => mb_substr($key, 4, -1), $keys));
+
+        return $this;
     }
 
     /**
@@ -39,17 +40,22 @@ class Analyzer
         }
     }
 
-    public function writeResultsToFiles(string $directoryName = 'analyze_results'): void
+    public function writeResultsToFiles(string $directoryName = 'analyze_results'): self
     {
         Formatter::createTranslationFiles($directoryName, $this->foundKeys, $this->incorrectKeys);
+
+        return $this;
     }
 
-    public function writeResultsToLaravelFiles(array $languages): void
+    public function writeResultsToLaravelFiles(array $languages): self
     {
         foreach ($languages as $languageName) {
             Formatter::createTranslationFiles("../lang/$languageName", $this->foundKeys, $this->incorrectKeys);
         }
+
+        return $this;
     }
+
     public function getFoundKeys(): array
     {
         return $this->foundKeys;
@@ -58,5 +64,11 @@ class Analyzer
     public function getIncorrectKeys(): array
     {
         return $this->incorrectKeys;
+    }
+
+    public function setSuffix(string $suffix): Analyzer
+    {
+        $this->suffix = $suffix;
+        return $this;
     }
 }

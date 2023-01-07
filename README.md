@@ -10,13 +10,13 @@ composer require filipponik/translate-analyzer --dev
 
 ```php
 $analyzer = new \Filipponik\TranslateAnalyzer\Analyzer();
-
-// Analyze custom directory
-$analyzer->analyze('../app');
-
-// Write to laravel lang files (by default structure)
-$analyzer->writeResultsToLaravelFiles(['en', 'es', 'ch']);
-
-// Write lang files to selected directory
-$analyzer->writeResultsToFiles('my_super_lang_files');
+$analyzer
+    // Analyze only .php files
+    ->setSuffix('php')
+    // Analyze directory ../app
+    ->analyze('../app')
+    // Write to laravel lang files (by default structure)
+    ->writeResultsToLaravelFiles(['en', 'es', 'ch'])
+    // Or write lang files to selected directory
+    ->writeResultsToFiles('my_super_lang_files');
 ```
