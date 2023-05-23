@@ -18,12 +18,13 @@ class Formatter
         }
 
         if (!empty($unsupportedKeys)) {
-            $info = implode("\n", $unsupportedKeys);
-            Helper::saveToFile($directoryName, 'UNSUPPORTED', $info);
+            $customVarExport = self::customVarExport($unsupportedKeys, 0, false);
+            $info = "<?php\n\nreturn $customVarExport;\n";
+            Helper::saveToFile($directoryName, 'UNSUPPORTED.php', $info);
         }
     }
 
-    public static function customVarExport($inputValue, int $spacesCount = 0): string
+    public static function customVarExport($inputValue, int $spacesCount = 0, bool $withKey = true): string
     {
         if (is_array($inputValue)) {
             $spaces = str_repeat(' ', $spacesCount);
@@ -33,7 +34,9 @@ class Formatter
 
             foreach ($inputValue as $key => $value) {
                 $exportedVar  = self::customVarExport($value, $innerSpacesCount);
-                $summary .= "$innerSpaces'$key' => $exportedVar,\n";
+                $summary .= $withKey
+                    ? "$innerSpaces'$key' => $exportedVar,\n"
+                    : "$innerSpaces$exportedVar,\n";
             }
             $summary .= $spaces . ']';
 

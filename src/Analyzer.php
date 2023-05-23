@@ -6,6 +6,8 @@ namespace Filipponik\TranslateAnalyzer;
 
 class Analyzer
 {
+    private string $directoryPath = '';
+
     private array $foundKeys = [];
 
     private array $incorrectKeys = [];
@@ -47,13 +49,24 @@ class Analyzer
         return $this;
     }
 
-    public function writeResultsToLaravelFiles(array $languages): self
+    public function writeResultsToLaravelFiles(array $languages, $prefix): self
     {
         foreach ($languages as $languageName) {
-            Formatter::createTranslationFiles("../lang/$languageName", $this->foundKeys, $this->incorrectKeys);
+            $filename = $this->directoryPath . DIRECTORY_SEPARATOR . $prefix . DIRECTORY_SEPARATOR . $languageName;
+            Formatter::createTranslationFiles($filename, $this->foundKeys, $this->incorrectKeys);
         }
 
         return $this;
+    }
+
+    public function toLaravel8AndBefore(array $languages, $prefix = 'resources/lang'): self
+    {
+        return $this->writeResultsToLaravelFiles($languages, $prefix);
+    }
+
+    public function toLaravel9AndAbove(array $languages, $prefix = 'lang'): self
+    {
+        return $this->writeResultsToLaravelFiles($languages, $prefix);
     }
 
     public function getFoundKeys(): array
@@ -66,9 +79,15 @@ class Analyzer
         return $this->incorrectKeys;
     }
 
-    public function setSuffix(string $suffix): Analyzer
+    public function setSuffix(string $suffix): self
     {
         $this->suffix = $suffix;
+        return $this;
+    }
+
+    public function setDirectoryPath(string $directoryPath): self
+    {
+        $this->directoryPath = $directoryPath;
         return $this;
     }
 }

@@ -50,7 +50,7 @@ class DirectoryAnalyzer
      */
     public static function getKeysFromFile(SplFileInfo $fileInfo): array
     {
-        $re = '/__\(\'[A-z\s.]+\'/m';
+        $re = '/__\(\'[A-z\s[\\\'].+\'/m';
         $arr = [];
         do {
             $string = $fileInfo->fgets();
