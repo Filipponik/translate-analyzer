@@ -53,7 +53,7 @@ class Analyzer
     {
         foreach ($languages as $languageName) {
             $filename = $this->directoryPath . DIRECTORY_SEPARATOR . $prefix . DIRECTORY_SEPARATOR . $languageName;
-            Formatter::createTranslationFiles($filename, $this->foundKeys, $this->incorrectKeys);
+            $this->writeResultsToFiles($filename);
         }
 
         return $this;
