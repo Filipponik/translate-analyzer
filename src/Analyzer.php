@@ -21,7 +21,7 @@ class Analyzer
     {
         $keys = array_unique(DirectoryAnalyzer::getKeysFromDirectory($path, [], $this->suffix));
         sort($keys);
-        $this->createCorrectKeysArray(array_map(fn ($key) => mb_substr($key, 4, -1), $keys));
+        $this->createCorrectKeysArray($keys);
 
         return $this;
     }
