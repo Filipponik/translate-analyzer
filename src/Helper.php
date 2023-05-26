@@ -38,7 +38,7 @@ class Helper
         if (!is_dir($directoryName)) {
             mkdir($directoryName, 0755, true);
         }
-        $file = fopen($directoryName . '/' . $fileName, 'w');
+        $file = fopen($directoryName . DIRECTORY_SEPARATOR . $fileName, 'w');
         fputs($file, $data);
         fclose($file);
     }

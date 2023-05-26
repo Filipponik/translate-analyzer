@@ -29,12 +29,14 @@ class DirectoryAnalyzer
 
             if ($iterator->isReadable() && $iterator->isFile()) {
                 if (!$suffix || $iterator->getExtension() !== $suffix) {
+                    $iterator->next();
                     continue;
                 }
                 $file = $iterator->openFile();
                 $inputArr = array_merge($inputArr, self::getKeysFromFile($file));
             } elseif ($iterator->isDir()) {
-                $inputArr = self::getKeysFromDirectory($path . '/' . $iterator->getFilename(), $inputArr, $suffix);
+                $nextPath = $path . DIRECTORY_SEPARATOR . $iterator->getFilename();
+                $inputArr = self::getKeysFromDirectory($nextPath, $inputArr, $suffix);
             }
             $iterator->next();
         } while (true);

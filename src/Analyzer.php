@@ -14,12 +14,22 @@ class Analyzer
 
     private string $suffix = '';
 
-    /**
-     * Analyze some directory
-     */
-    public function analyze(string $path): self
+    protected function analyzeDirectory(string $path): array
     {
-        $keys = array_unique(DirectoryAnalyzer::getKeysFromDirectory($path, [], $this->suffix));
+        return DirectoryAnalyzer::getKeysFromDirectory($path, [], $this->suffix);
+    }
+
+    /**
+     * Analyze some directories
+     */
+    public function analyze(string ...$paths): self
+    {
+        $keys = array_unique(array_reduce(
+            $paths,
+            fn (array $carry, string $path) => [$carry, ...$this->analyzeDirectory($path)],
+            []
+        ));
+
         sort($keys);
         $this->createCorrectKeysArray($keys);
 
@@ -79,13 +89,29 @@ class Analyzer
         return $this->incorrectKeys;
     }
 
+    /**
+     * @deprecated use suffix() instead
+     */
     public function setSuffix(string $suffix): self
+    {
+        return $this->suffix($suffix);
+    }
+
+    public function suffix(string $suffix): self
     {
         $this->suffix = $suffix;
         return $this;
     }
 
+    /**
+     * @deprecated use directory() instead
+     */
     public function setDirectoryPath(string $directoryPath): self
+    {
+        return $this->directory($directoryPath);
+    }
+
+    public function directory(string $directoryPath): self
     {
         $this->directoryPath = $directoryPath;
         return $this;
